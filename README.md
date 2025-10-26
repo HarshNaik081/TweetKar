@@ -1,4 +1,4 @@
-# � [TweetKar - Microblogging MEERN App](https://tweetkar-frontend.onrender.com).
+# � [TweetKar - Microblogging MERN App](https://tweetkar-frontend.onrender.com).
 
 A full-featured Twitter clone built with the MERN stack. Post tweets, follow users, like & retweet, send direct messages, and explore trending topics!
 
