@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TweetKar - Connect with the world</title>
+    <meta name="description" content="TweetKar - A comprehensive social media platform to connect, share, and engage">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-spinner"></div>
+            <p>Loading MicroBlog...</p>
+        </div>
+
+        <!-- Authentication Screen -->
+        <div id="auth-screen" class="auth-screen hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <img src="TweetKar_logo.jpg" alt="TweetKar" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <svg class="logo" viewBox="0 0 24 24" width="48" height="48" style="display:none;">
+                        <path fill="currentColor" d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/>
+                    </svg>
+                    <h1>TweetKar</h1>
+                    <p class="tagline">Connect with the world</p>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form">
+                    <h2>Sign In</h2>
+                    <button class="btn btn--google btn--full-width" onclick="handleGoogleLogin()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Sign in with Google
+                    </button>
+                    <div class="auth-divider">
+                        <span>or</span>
+                    </div>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-username" class="form-label">Username or Email</label>
+                            <input type="text" id="login-username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" id="login-password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+                    </form>
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="showRegister(event)">Sign up</a></p>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form hidden">
+                    <h2>Create Account</h2>
+                    <button class="btn btn--google btn--full-width" onclick="handleGoogleLogin()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Sign up with Google
+                    </button>
+                    <div class="auth-divider">
+                        <span>or</span>
+                    </div>
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="register-name" class="form-label">Full Name</label>
+                            <input type="text" id="register-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-username" class="form-label">Username</label>
+                            <input type="text" id="register-username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email" class="form-label">Email</label>
+                            <input type="email" id="register-email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password" class="form-label">Password</label>
+                            <input type="password" id="register-password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+                    </form>
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="showLogin(event)">Sign in</a></p>
+                </div>
+
+                <!-- Email Verification -->
+                <div id="email-verification" class="auth-form hidden">
+                    <h2>Verify Your Email</h2>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 24px; text-align: center;">We've sent a 6-digit code to<br><strong id="verify-email"></strong></p>
+                    <div class="otp-container">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 0)">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 1)">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 2)">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 3)">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 4)">
+                        <input type="text" maxlength="1" class="otp-input" oninput="handleOtpInput(event, 5)">
+                    </div>
+                    <button class="btn btn--primary btn--full-width" onclick="verifyOtp()" style="margin-top: 24px;">Verify Email</button>
+                    <p class="auth-switch">Didn't receive code? <a href="#" onclick="resendOtp(event)">Resend</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Application -->
+        <div id="main-app" class="main-app hidden">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav">
+                <div class="nav-container">
+                            <div class="nav-logo">
+                        <img src="TweetKar_logo.jpg" alt="TweetKar" class="logo-nav" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                        <svg viewBox="0 0 24 24" width="32" height="32" style="display:none;">
+                            <path fill="currentColor" d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/>
+                        </svg>
+                    </div>
+                    <div class="nav-search">
+                        <input type="text" id="global-search" placeholder="Search tweets, users..." class="search-input" oninput="handleGlobalSearch(event)">
+                    </div>
+                    <div class="nav-actions">
+                        <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
+                            <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                            </svg>
+                        </button>
+                        <button class="icon-btn notification-btn" onclick="toggleNotifications()" title="Notifications">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6l2 2m-7 2a2 2 0 0 1-2 2 2 2 0 0 1-2-2"/>
+                            </svg>
+                            <span class="notification-badge" id="notification-count">0</span>
+                        </button>
+                        <div class="user-menu" onclick="toggleUserMenu()">
+                            <img class="user-avatar" id="nav-user-avatar" src="" alt="User">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- User Menu Dropdown -->
+            <div id="user-menu-dropdown" class="user-menu-dropdown hidden">
+                <div class="menu-item" onclick="showProfile()">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                    Profile
+                </div>
+                <div class="menu-item" onclick="showAnalytics()">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    Analytics
+                </div>
+                <div class="menu-item" onclick="showSettings()">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                    Settings
+                </div>
+                <div class="menu-divider"></div>
+                <div class="menu-item" onclick="handleLogout()">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                    Logout
+                </div>
+            </div>
+
+            <!-- Notifications Panel -->
+            <div id="notifications-panel" class="notifications-panel hidden">
+                <div class="panel-header">
+                    <h3>Notifications</h3>
+                    <button class="btn btn--sm btn--secondary" onclick="markAllRead()">Mark all read</button>
+                </div>
+                <div id="notifications-list" class="notifications-list">
+                    <!-- Notifications will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-logo">
+                        <img src="TweetKar_logo.jpg" alt="TweetKar" class="sidebar-logo-img" onerror="this.style.display='none'">
+                        <h2 style="font-size: 24px; font-weight: 700; color: var(--color-primary); margin-top: 8px;">TweetKar</h2>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-link active" onclick="navigateTo(event, 'home')" data-view="home">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo(event, 'explore')" data-view="explore">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                            <span>Explore</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo(event, 'messages')" data-view="messages">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                            </svg>
+                            <span>Messages</span>
+                            <span class="badge" id="messages-badge">3</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo(event, 'bookmarks')" data-view="bookmarks">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
+                            <span>Bookmarks</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo(event, 'lists')" data-view="lists">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                            </svg>
+                            <span>Lists</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="showProfile()" data-view="profile">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                            </svg>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="showSettings()" data-view="settings">
+                            <svg viewBox="0 0 24 24" width="26" height="26">
+                                <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                            </svg>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+                    <button class="btn btn--primary btn--full-width compose-btn" onclick="openComposer()">Post</button>
+                </aside>
+
+                <!-- Main Feed -->
+                <main class="feed" id="main-view">
+                    <!-- Home View -->
+                    <div id="home-view" class="view-container">
+                        <div class="feed-header">
+                            <div class="feed-tabs">
+                                <button class="tab-btn active" onclick="switchFeedTab(event, 'foryou')">For You</button>
+                                <button class="tab-btn" onclick="switchFeedTab(event, 'following')">Following</button>
+                            </div>
+                        </div>
+                        <div id="tweets-container" class="tweets-container">
+                            <!-- Tweets will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Explore View -->
+                    <div id="explore-view" class="view-container hidden">
+                        <div class="feed-header">
+                            <h2>Explore</h2>
+                        </div>
+                        <div class="explore-content">
+                            <div class="search-section">
+                                <input type="text" placeholder="Search topics, hashtags..." class="form-control" oninput="handleExploreSearch(event)">
+                            </div>
+                            <div id="trending-section" class="trending-section">
+                                <!-- Trending content will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages View -->
+                    <div id="messages-view" class="view-container hidden">
+                        <div class="messages-layout">
+                            <div class="conversations-list">
+                                <div class="feed-header">
+                                    <h2>Messages</h2>
+                                    <button class="icon-btn" onclick="startNewConversation()">
+                                        <svg viewBox="0 0 24 24" width="20" height="20">
+                                            <path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="conversations-container">
+                                    <!-- Conversations will be rendered here -->
+                                </div>
+                            </div>
+                            <div class="conversation-detail" id="conversation-detail">
+                                <div class="empty-state">
+                                    <p>Select a conversation to start messaging</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookmarks View -->
+                    <div id="bookmarks-view" class="view-container hidden">
+                        <div class="feed-header">
+                            <h2>Bookmarks</h2>
+                        </div>
+                        <div id="bookmarks-container" class="tweets-container">
+                            <!-- Bookmarked tweets will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Lists View -->
+                    <div id="lists-view" class="view-container hidden">
+                        <div class="feed-header">
+                            <h2>Your Lists</h2>
+                            <button class="btn btn--sm btn--primary" onclick="createNewList()">Create List</button>
+                        </div>
+                        <div id="lists-container" class="lists-container">
+                            <!-- Lists will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Profile View -->
+                    <div id="profile-view" class="view-container hidden">
+                        <!-- Profile content will be rendered dynamically -->
+                    </div>
+
+                    <!-- Analytics View -->
+                    <div id="analytics-view" class="view-container hidden">
+                        <div class="feed-header">
+                            <h2>Analytics</h2>
+                        </div>
+                        <div id="analytics-container" class="analytics-container">
+                            <!-- Analytics will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Settings View -->
+                    <div id="settings-view" class="view-container hidden">
+                        <div class="feed-header">
+                            <h2>Settings</h2>
+                        </div>
+                        <div class="settings-container">
+                            <!-- Settings will be rendered here -->
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Right Sidebar -->
+                <aside class="right-sidebar">
+                    <!-- Trending Section -->
+                    <div class="widget">
+                        <h3 class="widget-title">Trending</h3>
+                        <div id="trending-widget" class="trending-list">
+                            <!-- Trending hashtags will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Who to Follow -->
+                    <div class="widget">
+                        <h3 class="widget-title">Who to follow</h3>
+                        <div id="suggestions-widget" class="suggestions-list">
+                            <!-- User suggestions will be rendered here -->
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <!-- Composer Modal -->
+        <div id="composer-modal" class="modal hidden">
+            <div class="modal-overlay" onclick="closeComposer()"></div>
+            <div class="modal-content composer-modal">
+                <div class="modal-header">
+                    <button class="icon-btn" onclick="closeComposer()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                    <h3>Create Post</h3>
+                    <button class="btn btn--primary btn--sm" onclick="submitTweet()">Post</button>
+                </div>
+                <div class="composer-body">
+                    <div class="composer-user">
+                        <img class="user-avatar" id="composer-avatar" src="" alt="User">
+                    </div>
+                    <div class="composer-content">
+                        <textarea id="tweet-textarea" placeholder="What's happening?" class="composer-textarea" maxlength="280"></textarea>
+                        <div id="image-preview" class="image-preview hidden">
+                            <button class="remove-image" onclick="removeComposerImage()">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                </svg>
+                            </button>
+                            <img id="preview-image" src="" alt="Preview">
+                        </div>
+                        <div id="poll-creator" class="poll-creator hidden">
+                            <h4 style="margin-bottom: 12px; font-weight: 600;">Create Poll</h4>
+                            <div class="poll-options-input">
+                                <div class="poll-option-input-group">
+                                    <input type="text" class="form-control" placeholder="Option 1" id="poll-option-1" maxlength="25">
+                                    <button class="icon-btn" onclick="addImageToPollOption(1)" title="Add image">
+                                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                    </button>
+                                </div>
+                                <div class="poll-option-input-group">
+                                    <input type="text" class="form-control" placeholder="Option 2" id="poll-option-2" maxlength="25">
+                                    <button class="icon-btn" onclick="addImageToPollOption(2)" title="Add image">
+                                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                    </button>
+                                </div>
+                                <div class="poll-option-input-group">
+                                    <input type="text" class="form-control" placeholder="Option 3 (Optional)" id="poll-option-3" maxlength="25">
+                                    <button class="icon-btn" onclick="addImageToPollOption(3)" title="Add image">
+                                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                    </button>
+                                </div>
+                                <div class="poll-option-input-group">
+                                    <input type="text" class="form-control" placeholder="Option 4 (Optional)" id="poll-option-4" maxlength="25">
+                                    <button class="icon-btn" onclick="addImageToPollOption(4)" title="Add image">
+                                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="poll-duration" style="margin-top: 16px;">
+                                <label class="form-label">Poll Duration</label>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;">
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(1)">1 hour</button>
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(6)">6 hours</button>
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(12)">12 hours</button>
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(24)">1 day</button>
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(72)">3 days</button>
+                                    <button class="poll-quick-btn" onclick="setQuickPollDuration(168)">7 days</button>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <div style="flex: 1;">
+                                        <label class="form-label" style="font-size: 12px; margin-bottom: 4px;">Hours</label>
+                                        <input type="number" id="poll-hours" class="form-control" min="1" max="72" value="24" style="padding: 8px;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label class="form-label" style="font-size: 12px; margin-bottom: 4px;">Days</label>
+                                        <input type="number" id="poll-days" class="form-control" min="0" max="7" value="0" style="padding: 8px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn--sm btn--secondary" onclick="removePoll()" style="margin-top: 12px;">Remove Poll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="composer-footer">
+                    <div class="composer-actions">
+                        <button class="icon-btn" onclick="triggerImageUpload()" title="Add image">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" onclick="togglePollCreator()" title="Add poll">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </button>
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                    </div>
+                    <div class="char-count" id="char-count">280</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Edit Modal -->
+        <div id="profile-edit-modal" class="modal hidden">
+            <div class="modal-overlay" onclick="closeProfileEdit()"></div>
+            <div class="modal-content profile-edit-modal">
+                <div class="modal-header">
+                    <button class="icon-btn" onclick="closeProfileEdit()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                    <h3>Edit Profile</h3>
+                    <button class="btn btn--primary btn--sm" onclick="saveProfile()">Save</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Profile Picture</label>
+                        <div class="avatar-selection">
+                            <div class="current-avatar">
+                                <img id="edit-avatar-preview" src="" alt="Avatar">
+                                <button class="btn btn--sm btn--secondary" onclick="showAvatarPicker()">Change Avatar</button>
+                            </div>
+                            <div id="avatar-picker" class="avatar-picker hidden">
+                                <div class="avatar-options">
+                                    <div class="avatar-option" onclick="selectAvatar('upload')">
+                                        <div class="avatar-upload-btn">
+                                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                                <path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                                            </svg>
+                                            <span>Upload</span>
+                                        </div>
+                                        <input type="file" id="avatar-upload" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                                    </div>
+                                    <div class="avatar-option" onclick="selectAvatar('gradient1')" data-avatar="gradient1"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('gradient2')" data-avatar="gradient2"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('geometric')" data-avatar="geometric"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('cat')" data-avatar="cat"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('mountain')" data-avatar="mountain"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('cosmic')" data-avatar="cosmic"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('wave')" data-avatar="wave"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('rainbow')" data-avatar="rainbow"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('tech')" data-avatar="tech"></div>
+                                    <div class="avatar-option" onclick="selectAvatar('professional')" data-avatar="professional"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" id="edit-name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bio</label>
+                        <textarea id="edit-bio" class="form-control" rows="3" maxlength="160"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" id="edit-location" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Website</label>
+                        <input type="url" id="edit-website" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="share-modal" class="modal hidden">
+            <div class="modal-overlay" onclick="closeShareModal()"></div>
+            <div class="modal-content share-modal">
+                <div class="modal-header">
+                    <button class="icon-btn" onclick="closeShareModal()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                    <h3>Share Post</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="share-options">
+                        <button class="share-option" onclick="shareVia('copylink')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                            <span>Copy Link</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('twitter')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg>
+                            <span>Share on X</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('facebook')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            <span>Facebook</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('whatsapp')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            <span>WhatsApp</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('telegram')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#0088cc" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <span>Telegram</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('email')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span>Email</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('qrcode')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2zM17 17h2v2h-2zM19 19h2v2h-2z"/></svg>
+                            <span>QR Code</span>
+                        </button>
+                        <button class="share-option" onclick="shareVia('embed')">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                            <span>Embed Code</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+    <script src="components.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

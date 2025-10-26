@@ -1,0 +1,20 @@
+{
+  "name": "tweetkar-frontend",
+  "version": "1.0.0",
+  "description": "TweetKar - Twitter Clone Frontend",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "twitter",
+    "social-media",
+    "frontend"
+  ],
+  "author": "TweetKar Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
