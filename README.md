@@ -1,11 +1,33 @@
-# 🚀 TweetKar - Full Stack MERN Social Media Platform
+# � TweetKar - Twitter Clone
 
-A comprehensive Twitter clone built with the MERN stack (MongoDB, Express.js, Vanilla JavaScript, Node.js).
+A full-featured Twitter clone built with the MERN stack. Post tweets, follow users, like & retweet, send direct messages, and explore trending topics!
 
-## 📖 Documentation
+![MERN Stack](https://img.shields.io/badge/Stack-MERN-green)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Node](https://img.shields.io/badge/Node.js-v16+-brightgreen)
+![MongoDB](https://img.shields.io/badge/MongoDB-v4.4+-green)
 
-- **[Setup Guide](setup-guide.md)** - Complete installation and configuration instructions
-- **[Project Info](PROJECT_INFO.md)** - Detailed project documentation and API reference
+## � Quick Start
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd tweetkar-ultimate-final
+
+# Install dependencies for both frontend and backend
+npm run install-all
+
+# Configure environment variables
+cd backend
+cp .env.example .env
+# Edit .env with your MongoDB URI and JWT secret
+
+# Run the application (from root directory)
+cd ..
+npm run dev
+```
+
+**Access the app:** http://localhost:3000
 
 ## ✨ Features
 
@@ -41,149 +63,207 @@ A comprehensive Twitter clone built with the MERN stack (MongoDB, Express.js, Va
 - 🎨 Customizable Avatars
 - 📱 Fully Responsive Design
 
-## 🏗️ Project Structure
+## 🏗️ Tech Stack
+
+**Frontend:**
+- HTML5, CSS3, Vanilla JavaScript
+- Express.js (Static file server)
+- Responsive Design
+
+**Backend:**
+- Node.js & Express.js
+- MongoDB & Mongoose
+- JWT Authentication
+- bcryptjs for password hashing
+
+**DevOps:**
+- Docker & Docker Compose
+- Git version control
+
+## 📁 Project Structure
 
 ```
-tweetkar-mern/
-├── backend/                 # Node.js + Express Backend
-│   ├── config/
-│   │   └── db.js           # MongoDB connection
-│   ├── controllers/
-│   │   └── authController.js
-│   ├── middleware/
-│   │   ├── auth.js         # JWT authentication
-│   │   └── errorHandler.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Tweet.js
-│   │   ├── Comment.js
-│   │   ├── Notification.js
-│   │   ├── Message.js
-│   │   └── List.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── users.js
-│   │   ├── tweets.js
-│   │   ├── comments.js
-│   │   ├── notifications.js
-│   │   ├── messages.js
-│   │   ├── lists.js
-│   │   └── bookmarks.js
-│   ├── utils/
-│   │   └── generateToken.js
-│   ├── .env.example
-│   ├── .gitignore
-│   ├── package.json
-│   ├── server.js
-│   └── README.md
+tweetkar/
+├── backend/                 # Node.js + Express API
+│   ├── config/             # Database configuration
+│   ├── controllers/        # Request handlers
+│   ├── middleware/         # Auth & error handling
+│   ├── models/             # Mongoose schemas
+│   ├── routes/             # API routes
+│   └── server.js           # Entry point
 │
-├── frontend/                # Vanilla JS Frontend
-│   ├── public/
-│   │   ├── index.html
-│   │   ├── app.js
-│   │   ├── components.js
-│   │   ├── utils.js
-│   │   └── style.css
-│   ├── server.js
-│   ├── package.json
-│   └── README.md
+├── frontend/               # Static frontend
+│   ├── public/             # HTML, CSS, JS files
+│   └── server.js           # Static file server
 │
-└── README.md               # This file
+├── docker-compose.yml      # Docker orchestration
+├── package.json            # Root scripts
+└── setup-guide.md         # Detailed setup guide
 ```
 
-## 🛠️ Tech Stack
+## 🛠️ Installation & Setup
 
-### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - Database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - Authentication
-- **bcryptjs** - Password hashing
-- **Helmet** - Security headers
-- **CORS** - Cross-origin resource sharing
-- **Morgan** - HTTP request logger
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (local or Atlas account)
+- npm or yarn
 
-### Frontend
-- **HTML5** - Markup
-- **CSS3** - Styling
-- **JavaScript (ES6+)** - Logic
-- **Express** - Static file server
+### Step 1: Clone and Install
 
-## 📋 Prerequisites
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd tweetkar-ultimate-final
 
-Before you begin, ensure you have the following installed:
-- **Node.js** (v14 or higher)
-- **MongoDB** (v4.4 or higher) - Local installation or MongoDB Atlas account
-- **npm** or **yarn**
-- **Git**
-
-## 🚀 Getting Started
-
-For complete setup instructions, see **[setup-guide.md](setup-guide.md)**
-
-### Quick Start
-
-1. **Install Dependencies**
-   ```bash
-   npm run install-all
-   ```
-
-2. **Configure Environment**
-   ```bash
-   cd backend
-   copy .env.example .env
-   # Edit .env with your MongoDB URI and JWT secret
-   ```
-
-3. **Run the Application**
-   ```bash
-   # From root directory
-   npm run dev
-   ```
-
-4. **Access the App**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-
-For detailed setup instructions, troubleshooting, and Docker setup, see **[setup-guide.md](setup-guide.md)**
-
-## 📖 API Documentation
-
-### Authentication Endpoints
-
-```
-POST   /api/auth/register    - Register new user
-POST   /api/auth/login       - Login user
-GET    /api/auth/me          - Get current user
-GET    /api/auth/logout      - Logout user
+# Install all dependencies
+npm run install-all
 ```
 
-### User Endpoints
+### Step 2: Environment Configuration
 
-```
-GET    /api/users/profile/:username  - Get user profile
-GET    /api/users/search             - Search users
-PUT    /api/users/profile            - Update profile
-POST   /api/users/follow/:userId     - Follow user
-DELETE /api/users/follow/:userId     - Unfollow user
-```
+```bash
+# Navigate to backend
+cd backend
 
-### Tweet Endpoints
+# Copy environment template
+cp .env.example .env
 
-```
-GET    /api/tweets              - Get all tweets
-POST   /api/tweets              - Create tweet
-GET    /api/tweets/:id          - Get tweet by ID
-DELETE /api/tweets/:id          - Delete tweet
-POST   /api/tweets/:id/like     - Like tweet
-POST   /api/tweets/:id/retweet  - Retweet
+# Edit .env file with your credentials
 ```
 
-### Comment Endpoints
-
+**Required environment variables:**
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/tweetkar
+JWT_SECRET=your_secret_key_here
+CLIENT_URL=http://localhost:3000
 ```
-GET    /api/comments/tweet/:tweetId  - Get tweet comments
+
+### Step 3: Run the Application
+
+**Option A: Run both servers concurrently (Recommended)**
+```bash
+# From root directory
+npm run dev
+```
+
+**Option B: Run separately**
+```bash
+# Terminal 1 - Backend
+cd backend
+npm run dev
+
+# Terminal 2 - Frontend
+cd frontend
+npm start
+```
+
+**Access the application:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000
+
+## 🐳 Docker Setup (Alternative)
+
+```bash
+# Start all services (MongoDB + Backend + Frontend)
+docker-compose up
+
+# Stop services
+docker-compose down
+```
+
+## 📚 Documentation
+
+- **[setup-guide.md](setup-guide.md)** - Complete setup & troubleshooting guide
+- **[PROJECT_INFO.md](PROJECT_INFO.md)** - Detailed API documentation
+
+## 🔧 Available Scripts
+
+**Root directory:**
+```bash
+npm run install-all    # Install all dependencies
+npm run dev           # Run both frontend & backend
+npm run server        # Run backend only
+npm run client        # Run frontend only
+```
+
+**Backend directory:**
+```bash
+npm start            # Production mode
+npm run dev          # Development mode (nodemon)
+```
+
+**Frontend directory:**
+```bash
+npm start            # Start static server
+```
+
+## 🌐 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user (protected)
+- `GET /api/auth/logout` - Logout user (protected)
+
+### Users
+- `GET /api/users/:id` - Get user profile
+- `PUT /api/users/:id` - Update user profile
+- `GET /api/users/:id/followers` - Get user followers
+- `POST /api/users/:id/follow` - Follow user
+
+### Tweets
+- `GET /api/tweets` - Get all tweets
+- `POST /api/tweets` - Create tweet
+- `GET /api/tweets/:id` - Get single tweet
+- `DELETE /api/tweets/:id` - Delete tweet
+- `POST /api/tweets/:id/like` - Like/unlike tweet
+- `POST /api/tweets/:id/retweet` - Retweet
+
+*See [PROJECT_INFO.md](PROJECT_INFO.md) for complete API documentation*
+
+## 🐛 Troubleshooting
+
+**MongoDB Connection Error:**
+- Ensure MongoDB is running: `mongod` or start MongoDB service
+- Check `MONGODB_URI` in `.env` file
+
+**Port Already in Use:**
+```bash
+# Windows - Kill process on port
+netstat -ano | findstr :5000
+taskkill /PID <PID> /F
+```
+
+**Module Not Found:**
+```bash
+# Reinstall dependencies
+rm -rf node_modules
+npm install
+```
+
+For more troubleshooting, see [setup-guide.md](setup-guide.md)
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 👤 Author
+
+**Your Name**
+- GitHub: [@yourusername](https://github.com/yourusername)
+
+## ⭐ Show Your Support
+
+Give a ⭐️ if you like this project!
+
+---
+
+*Built with ❤️ using the MERN stack*
 POST   /api/comments/tweet/:tweetId  - Create comment
 POST   /api/comments/:id/like        - Like comment
 POST   /api/comments/:id/reply       - Reply to comment
