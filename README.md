@@ -255,7 +255,7 @@ Contributions, issues, and feature requests are welcome!
 ## 👤 Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@HarshNaik081](https://github.com/HarshNaik081)
 
 ## ⭐ Show Your Support
 
@@ -414,7 +414,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Authors
 
-- **Your Name** - Initial work
+- **Your Name** - Harsh Naik
 
 ## 🙏 Acknowledgments
 
@@ -424,7 +424,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-For support, email your-email@example.com or open an issue on GitHub.
+For support, email harshnaik081@gmail.com or open an issue on GitHub.
 
 ---
 
