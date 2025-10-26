@@ -1,4 +1,4 @@
-# � TweetKar - Twitter Clone
+# � TweetKar - Microblogging MERN App
 
 A full-featured Twitter clone built with the MERN stack. Post tweets, follow users, like & retweet, send direct messages, and explore trending topics!
 
